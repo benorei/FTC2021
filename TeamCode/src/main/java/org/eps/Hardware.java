@@ -155,4 +155,8 @@ public class Hardware {
         //to be filled in later
     }
 
+    public void spinCarousel (double power){
+        //to be filled in later
+    }
+
 }
