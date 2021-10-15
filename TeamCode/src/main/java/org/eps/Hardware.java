@@ -151,5 +151,8 @@ public class Hardware {
 
     }
 
+    public void pickUpCargo (){
+        //to be filled in later
+    }
 
 }
