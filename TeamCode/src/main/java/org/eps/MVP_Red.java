@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //SKELETON
+//By Everest & Xinyuan
 
 @Autonomous(name="MVP_Red", group="9884_2122")
 public class MVP_Red extends LinearOpMode {
