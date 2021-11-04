@@ -5,8 +5,8 @@ package org.eps;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="Simple Auto", group="9884")
-public class SimpleAuto extends LinearOpMode {
+@Autonomous(name="Core Hex Testing", group="9884")
+public class CoreHex extends LinearOpMode {
 
     //declare opmode members
     Hardware robot = new Hardware();
@@ -20,6 +20,8 @@ public class SimpleAuto extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+        robot.BackRightMotor.setPower(1);
+        robot.threadSleep(10000);
         //stuff u want to do goes here
     }
 
