@@ -34,7 +34,7 @@ public class Hardware {
         FrontLeftMotor = hwMap.dcMotor.get("LF");
         FrontRightMotor = hwMap.dcMotor.get("RF");
         BackLeftMotor = hwMap.dcMotor.get("LB");
-        BackRightMotor = hwMap.dcMotor.get("COREHEX"); //CHANGE TO RB
+        BackRightMotor = hwMap.dcMotor.get("RB"); //CHANGE TO RB
 
         allMotors = new DcMotor[] {
                 FrontLeftMotor, FrontRightMotor, BackLeftMotor, BackRightMotor
