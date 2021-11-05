@@ -26,15 +26,15 @@ public class MVP_Red extends LinearOpMode {
 
         //CHANGE VALUES LATER
         //robot starts with side on wall
-        robot.strafe(0.5 , 200 );
+        robot.strafe(0.25 , 200 );
 
-        robot.allDrive( 0.5, 1000 );
+        robot.allDrive( 0.25, 1000 );
 
         robot.threadSleep(500);
 
-        robot.spinCarousel(0.5);
+        robot.spinCarousel(0.25);
 
-        robot.allDrive( -1, 3000);
+        robot.allDrive( -.5, 3000);
 
         //stuff u want to do goes here
     }
