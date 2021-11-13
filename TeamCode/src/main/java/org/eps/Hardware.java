@@ -57,6 +57,7 @@ public class Hardware {
             m.setPower(0.0);
             m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //this is good for auto, but is it good for driver control?
         }
 
@@ -123,7 +124,7 @@ public class Hardware {
 //        BackLeftMotor.setPower(0);
 //        FrontRightMotor.setPower(0);
 //        BackRightMotor.setPower(0);
-        powerAll(0, 0, 0, 0);
+        powerAllOne(0);
     }
 
     public void strafe (double power, int milliseconds) {
@@ -145,7 +146,7 @@ public class Hardware {
 
     public void powerAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
         FrontLeftMotor.setPower(frontLeftPower);
-        FrontRightMotorFix(frontRightPower);
+        FrontRightMotor.setPower(frontRightPower);
         BackLeftMotor.setPower(backLeftPower);
         BackRightMotor.setPower(backRightPower);
     }
