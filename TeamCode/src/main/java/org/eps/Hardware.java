@@ -8,14 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.util.Objects;
 
 public class Hardware {
     public DcMotor FrontLeftMotor = null;
-    public DcMotor FrontRightMotor = null;
+    public DcMotor FrontRightMotor = null; //robot.FrontRightMotorFix(power)
     public DcMotor BackLeftMotor = null;
     public DcMotor BackRightMotor = null;
     public DcMotor [] allMotors;
     double [] rotationArray;
+    double ProblematicMotorReductionFactor = 2;
 
     //Local opMode members.
     HardwareMap hwMap = null;
@@ -53,8 +55,8 @@ public class Hardware {
 
         for (DcMotor m : allMotors) {
             m.setPower(0.0);
-//            m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //this is good for auto, but is it good for driver control?
         }
 
@@ -89,67 +91,84 @@ public class Hardware {
      */
 
     public void allDrive(double power, int milliseconds){
-        FrontLeftMotor.setPower(power);
-        BackLeftMotor.setPower(power);
-        FrontRightMotor.setPower(power);
-        BackRightMotor.setPower(power);
+//        FrontLeftMotor.setPower(power);
+//        BackLeftMotor.setPower(power);
+//        FrontRightMotorFix(power);
+//        BackRightMotor.setPower(power);
+        powerAll(power, power, power, power);
 
         threadSleep(milliseconds);
 
-        FrontLeftMotor.setPower(0);
-        BackLeftMotor.setPower(0);
-        FrontRightMotor.setPower(0);
-        BackRightMotor.setPower(0);
+//        FrontLeftMotor.setPower(0);
+//        BackLeftMotor.setPower(0);
+//        FrontRightMotor.setPower(0);
+//        BackRightMotor.setPower(0);
+        powerAllOne(0);
     }
 
 
 
     public void turn(double power, int milliseconds){
         //Front motors
-        FrontLeftMotor.setPower(-power);
-        FrontRightMotor.setPower(power);
-        //Back motors
-        BackLeftMotor.setPower(-power);
-        BackRightMotor.setPower(power);
+//        FrontLeftMotor.setPower(-power);
+//        FrontRightMotorFix(power);
+//        //Back motors
+//        BackLeftMotor.setPower(-power);
+//        BackRightMotor.setPower(power);
+        powerAll(-power, power, -power, power);
 
         threadSleep(milliseconds);
 
-        FrontLeftMotor.setPower(0);
-        BackLeftMotor.setPower(0);
-        FrontRightMotor.setPower(0);
-        BackRightMotor.setPower(0);
-    }
-
-    public void spinTurn(double power, int milliseconds){
-        FrontLeftMotor.setPower(-power);
-        FrontRightMotor.setPower(power);
-        //Back motors
-        BackLeftMotor.setPower(power);
-        BackRightMotor.setPower(power);
-
-        threadSleep(milliseconds);
-
-        FrontLeftMotor.setPower(0);
-        FrontRightMotor.setPower(0);
-        //Back motors
-        BackLeftMotor.setPower(0);
-        BackRightMotor.setPower(0);
+//        FrontLeftMotor.setPower(0);
+//        BackLeftMotor.setPower(0);
+//        FrontRightMotor.setPower(0);
+//        BackRightMotor.setPower(0);
+        powerAll(0, 0, 0, 0);
     }
 
     public void strafe (double power, int milliseconds) {
-        FrontLeftMotor.setPower(power);
-        FrontRightMotor.setPower(-1*power);
-        BackLeftMotor.setPower(-1*power);
-        BackRightMotor.setPower(power);
+//        FrontLeftMotor.setPower(power);
+//        FrontRightMotorFix(-1*power);
+//        BackLeftMotor.setPower(-1*power);
+//        BackRightMotor.setPower(power);
+        powerAll(power, -1*power, -1*power, power);
 
         threadSleep(milliseconds);
 
-        FrontLeftMotor.setPower(0.0);
-        FrontRightMotor.setPower(0.0);
-        BackLeftMotor.setPower(0.0);
-        BackRightMotor.setPower(0.0);
+//        FrontLeftMotor.setPower(0.0);
+//        FrontRightMotor.setPower(0.0);
+//        BackLeftMotor.setPower(0.0);
+//        BackRightMotor.setPower(0.0);
+        powerAll(0, 0, 0, 0);
 
     }
+
+    public void powerAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
+        FrontLeftMotor.setPower(frontLeftPower);
+        FrontRightMotorFix(frontRightPower);
+        BackLeftMotor.setPower(backLeftPower);
+        BackRightMotor.setPower(backRightPower);
+    }
+
+    public void powerAllOne(double power){
+        powerAll(power, power, power, power);
+    }
+
+    public void rampAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
+        //note: this takes 200ms to get to the inserted power.
+        powerAll((frontLeftPower + FrontLeftMotor.getPower()) / 2.5, //goes to power 1/4 in between.
+                (frontRightPower + FrontRightMotor.getPower()) / 2.5,
+                (backLeftPower + BackLeftMotor.getPower()) / 2.5,
+                (backRightPower + BackRightMotor.getPower()) / 2.5);
+        threadSleep(100);
+        powerAll((frontLeftPower + FrontLeftMotor.getPower()) / 2, //goes to power halfway in between.
+                (frontRightPower + FrontRightMotor.getPower()) / 2,
+                (backLeftPower + BackLeftMotor.getPower()) / 2,
+                (backRightPower + BackRightMotor.getPower()) / 2);
+        threadSleep(100);
+        powerAll(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+    }
+
 
     public void pickUpCargo (){
         //to be filled in later
@@ -159,4 +178,7 @@ public class Hardware {
         //to be filled in later
     }
 
+    public void FrontRightMotorFix(double power){
+        FrontRightMotor.setPower(power * ProblematicMotorReductionFactor);
+    }
 }
