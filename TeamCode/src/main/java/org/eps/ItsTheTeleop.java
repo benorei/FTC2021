@@ -54,7 +54,7 @@ public class ItsTheTeleop extends LinearOpMode {
 
             robot.FrontLeftMotor.setPower(driveFactor*(Math.cos(dsAngle + Math.PI / 4) * dsWeight - rotPower * rotWeight));
             robot.BackRightMotor.setPower(driveFactor*(Math.cos(dsAngle + Math.PI / 4) * dsWeight + rotPower * rotWeight));
-            robot.FrontRightMotorFix(driveFactor*(Math.cos(dsAngle - Math.PI / 4) * dsWeight + rotPower * rotWeight));
+            robot.FrontRightMotor.setPower(driveFactor*(Math.cos(dsAngle - Math.PI / 4) * dsWeight + rotPower * rotWeight));
             robot.BackLeftMotor.setPower(driveFactor*(Math.cos(dsAngle - Math.PI / 4) * dsWeight - rotPower * rotWeight));
 
             if(rX == 0 && rY == 0 && lX == 0 && lY == 0){
@@ -62,6 +62,14 @@ public class ItsTheTeleop extends LinearOpMode {
                 robot.BackRightMotor.setPower(0);
                 robot.FrontRightMotor.setPower(0);
                 robot.BackLeftMotor.setPower(0);
+            }
+
+            if(gamepad1.right_trigger > 0) {
+                robot.spinCarousel(false);
+            } else if (gamepad1.left_trigger > 0) {
+                robot.spinCarousel(true);
+            } else if (gamepad1.right_bumper || gamepad1.left_bumper){
+                robot.stopCarousel();
             }
 
             telemetry.update();

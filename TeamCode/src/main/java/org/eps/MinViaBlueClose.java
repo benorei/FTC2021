@@ -5,11 +5,8 @@ package org.eps;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-//SKELETON
-//By Everest & Xinyuan
-
-@Autonomous(name="MVP_Red", group="9884_2122")
-public class MVP_Red extends LinearOpMode {
+@Autonomous(name="MinVia (Blue, Close)", group="9884")
+public class MinViaBlueClose extends LinearOpMode {
 
     //declare opmode members
     Hardware robot = new Hardware();
@@ -23,20 +20,10 @@ public class MVP_Red extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-
-        //CHANGE VALUES LATER
-        //robot starts with side on wall
-        robot.strafe(0.25 , 200 );
-
-        robot.allDrive( 0.25, 1000 );
-
-        robot.threadSleep(500);
-
-        robot.spinCarouselTimed(false,1000);
-
-        robot.allDrive( -.5, 3000);
-
         //stuff u want to do goes here
+
+        robot.strafe(-0.25, 1000);
+
     }
 
 }

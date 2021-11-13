@@ -5,6 +5,7 @@ package org.eps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,6 +16,7 @@ public class Hardware {
     public DcMotor FrontRightMotor = null; //robot.FrontRightMotorFix(power)
     public DcMotor BackLeftMotor = null;
     public DcMotor BackRightMotor = null;
+    public DcMotor CarouselMotor = null;
     public DcMotor [] allMotors;
     double [] rotationArray;
     double ProblematicMotorReductionFactor = 2;
@@ -28,6 +30,8 @@ public class Hardware {
         //Nothing :)
     }
 
+    double carouselPower = 0.1;
+
     public void init(HardwareMap ahwMap) {
         //Save references to hardware map
         hwMap = ahwMap;
@@ -37,9 +41,12 @@ public class Hardware {
         FrontRightMotor = hwMap.dcMotor.get("RF");
         BackLeftMotor = hwMap.dcMotor.get("LB");
         BackRightMotor = hwMap.dcMotor.get("RB"); //CHANGE TO RB
+        CarouselMotor = hwMap.dcMotor.get("CAROUSEL");
 
-        allMotors = new DcMotor[] {
-                FrontLeftMotor, FrontRightMotor, BackLeftMotor, BackRightMotor
+
+
+        allMotors = new DcMotor[]{
+                FrontLeftMotor, FrontRightMotor, BackLeftMotor, BackRightMotor, CarouselMotor
         };
 
         rotationArray = new double[] {-1.0, 1.0, -1.0, 1.0};
@@ -50,14 +57,13 @@ public class Hardware {
 //        FrontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         BackLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         BackRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         FrontRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         for (DcMotor m : allMotors) {
             m.setPower(0.0);
             m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //this is good for auto, but is it good for driver control?
         }
 
@@ -85,10 +91,6 @@ public class Hardware {
             - allDrive: sets all motors to a given power, condensing code needed to drive.
      - turn: turns in place at a given power for a given number of
     milliseconds. There is no way to input degrees.
-     - spinTurn: a project of Ben's that is still in progress. When finished, it will
-    allow the robot to turn on a pivot instead of in place.
-            - garageLift and garagePlace: turns the CR servos on the garage mechanism in
-    the directions needed to lift or release a block for a given number of milliseconds.
      */
 
     public void allDrive(double power, int milliseconds){
@@ -175,11 +177,26 @@ public class Hardware {
         //to be filled in later
     }
 
-    public void spinCarousel (double power){
-        //to be filled in later
+    public void spinCarousel (boolean forBlueSide){
+        if (forBlueSide) {
+            CarouselMotor.setPower(carouselPower);
+        } else {
+            CarouselMotor.setPower(-carouselPower);
+        }
+
     }
 
-    public void FrontRightMotorFix(double power){
-        FrontRightMotor.setPower(power * ProblematicMotorReductionFactor);
+    public void stopCarousel(){
+        CarouselMotor.setPower(0);
     }
+
+    public void spinCarouselTimed(boolean forBlueSide, int millis){
+        spinCarousel(forBlueSide);
+        threadSleep(millis);
+        stopCarousel();
+    }
+
+//    public void FrontRightMotorFix(double power){
+//        FrontRightMotor.setPower(power * ProblematicMotorReductionFactor);
+//    }
 }
