@@ -90,12 +90,9 @@ public class ItsTheTeleop extends LinearOpMode {
 //                robot.setClawPosition(0.2, 0);
 //            }
 
-            if(gamepad1.left_trigger > 0.2){
-                robot.ClawLeftServo.setPosition(gamepad1.left_trigger);
-            }
-
-            if(gamepad1.right_trigger > 0){
-                robot.ClawRightServo.setPosition(1 - gamepad1.right_trigger);
+            if(gamepad1.left_trigger > 0){
+                robot.ClawLeftServo.setPosition(gamepad1.left_trigger + 0.2);
+                robot.ClawRightServo.setPosition(gamepad1.left_trigger + 0.2);
             }
 
             telemetry.addData("Claw (left)", gamepad1.left_trigger);
