@@ -1,12 +1,14 @@
-package org.eps;
+package org.eps.MinVia;
 
 //Terminator, Destroyer of All, Bane of Android Studio
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="Core Hex Testing", group="9884")
-public class CoreHex extends LinearOpMode {
+import org.eps.Hardware;
+
+@Autonomous(name="MinVia (Blue, Close)", group="9884")
+public class MinViaBlueClose extends LinearOpMode {
 
     //declare opmode members
     Hardware robot = new Hardware();
@@ -20,9 +22,16 @@ public class CoreHex extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        robot.BackRightMotor.setPower(1);
-        robot.threadSleep(10000);
         //stuff u want to do goes here
+
+        robot.strafe(-0.5, 500);
+
+        robot.threadSleep(1000);
+
+        robot.allDrive(0.5, 1000);
+
+        robot.spinCarouselTimed(true, 10);
+
     }
 
 }

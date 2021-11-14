@@ -4,12 +4,9 @@ package org.eps;
 //The robot's name is Sketchy Boi.
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import java.util.Objects;
 
 public class Hardware {
     public DcMotor FrontLeftMotor = null;
@@ -17,6 +14,10 @@ public class Hardware {
     public DcMotor BackLeftMotor = null;
     public DcMotor BackRightMotor = null;
     public DcMotor CarouselMotor = null;
+
+    public Servo ClawLeftServo = null;
+    public Servo ClawRightServo = null;
+
     public DcMotor [] allMotors;
     double [] rotationArray;
     double ProblematicMotorReductionFactor = 2;
@@ -43,6 +44,8 @@ public class Hardware {
         BackRightMotor = hwMap.dcMotor.get("RB"); //CHANGE TO RB
         CarouselMotor = hwMap.dcMotor.get("CAROUSEL");
 
+        ClawLeftServo = hwMap.servo.get("GLEFT");
+        ClawRightServo = hwMap.servo.get("GRIGHT");
 
 
         allMotors = new DcMotor[]{
@@ -78,7 +81,7 @@ public class Hardware {
         return unscaledPowers;
     }
 
-    void threadSleep(long milliseconds) {
+    public void threadSleep(long milliseconds) {
         try {
             Thread.sleep(milliseconds);
         } catch (Exception e) {
@@ -194,6 +197,11 @@ public class Hardware {
         spinCarousel(forBlueSide);
         threadSleep(millis);
         stopCarousel();
+    }
+
+    public void setClawPosition(double leftPosition, double rightPosition){
+        ClawLeftServo.setPosition(leftPosition);
+        ClawRightServo.setPosition(rightPosition);
     }
 
 //    public void FrontRightMotorFix(double power){

@@ -29,7 +29,8 @@ public class ItsTheTeleop extends LinearOpMode {
         waitForStart();
 
         double driveFactor = 1;
-
+        int carouselCountdown = 0;
+        int clawCountdown = 0;
 
         while(opModeIsActive()) {
             double lX = -gamepad1.left_stick_x;
@@ -64,14 +65,47 @@ public class ItsTheTeleop extends LinearOpMode {
                 robot.BackLeftMotor.setPower(0);
             }
 
-            if(gamepad1.right_trigger > 0) {
+            if(gamepad1.right_bumper) {
                 robot.spinCarousel(false);
-            } else if (gamepad1.left_trigger > 0) {
+                carouselCountdown = 3;
+            } else if (gamepad1.left_bumper) {
                 robot.spinCarousel(true);
-            } else if (gamepad1.right_bumper || gamepad1.left_bumper){
+                carouselCountdown = 3;
+            } else if (carouselCountdown == 0){
                 robot.stopCarousel();
+            } else {
+                carouselCountdown -= 1; // count down from 3 so it doesn't ever stop when it's not supposed to.
+                //only 120ms delay
             }
 
+            //THE CLAW
+//            if(gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0.2){
+//                robot.setClawPosition(gamepad1.left_trigger, -gamepad1.right_trigger);
+////                clawCountdown = 2;
+//            } else {
+////                clawCountdown -= 1;
+//            }
+//
+//            if(gamepad1.right_trigger == 0 && gamepad1.left_trigger <= 0.2){
+//                robot.setClawPosition(0.2, 0);
+//            }
+
+            if(gamepad1.left_trigger > 0.2){
+                robot.ClawLeftServo.setPosition(gamepad1.left_trigger);
+            }
+
+            if(gamepad1.right_trigger > 0){
+                robot.ClawRightServo.setPosition(1 - gamepad1.right_trigger);
+            }
+
+            telemetry.addData("Claw (left)", gamepad1.left_trigger);
+            telemetry.addData("Claw (right)", gamepad1.right_trigger);
+            telemetry.addData("Claw Countdown", clawCountdown);
+            telemetry.addData("Carousel Countdown", carouselCountdown);
+            telemetry.addData("dsAngle", dsAngle);
+            telemetry.addData("dsWeight", dsWeight);
+            telemetry.addData("rotPower", rotPower);
+            telemetry.addData("rotWeight", rotWeight);
             telemetry.update();
 
             sleep(40);

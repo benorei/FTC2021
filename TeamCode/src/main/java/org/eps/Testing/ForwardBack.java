@@ -1,15 +1,17 @@
-package org.eps;
+package org.eps.Testing;
 
 //Terminator, Destroyer of All, Bane of Android Studio
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.eps.Hardware;
+
 //SKELETON
 //By Everest & Xinyuan
 
-@Autonomous(name="MVP_Red", group="9884_2122")
-public class MVP_Red extends LinearOpMode {
+@Autonomous(name="ForwardBack", group="9884_2122")
+public class ForwardBack extends LinearOpMode {
 
     //declare opmode members
     Hardware robot = new Hardware();
@@ -26,15 +28,8 @@ public class MVP_Red extends LinearOpMode {
 
         //CHANGE VALUES LATER
         //robot starts with side on wall
-        robot.strafe(0.25 , 200 );
-
-        robot.allDrive( 0.25, 1000 );
-
-        robot.threadSleep(500);
-
-        robot.spinCarouselTimed(false,1000);
-
-        robot.allDrive( -.5, 3000);
+        robot.allDrive(0.5, 5000);
+        robot.allDrive(-0.5, 5000);
 
         //stuff u want to do goes here
     }
