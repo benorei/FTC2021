@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.eps.Hardware;
 
-@Autonomous(name="MinVia (Blue, Close)", group="9884")
-public class MinViaBlueClose extends LinearOpMode {
+@Autonomous(name="MinVia (Red, Close)", group="9884")
+public class MinViaRedClose extends LinearOpMode {
 
     //declare opmode members
     Hardware robot = new Hardware();
@@ -24,7 +24,7 @@ public class MinViaBlueClose extends LinearOpMode {
         waitForStart();
         //stuff u want to do goes here
 
-        robot.strafe(-0.4, 500);
+        robot.strafe(0.4, 200);
 
         robot.threadSleep(1000);
 
