@@ -95,6 +95,8 @@ public class ItsTheTeleop extends LinearOpMode {
 
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
 
+
+            telemetry.addData("LF encoder", robot.FrontLeftMotor.getCurrentPosition());
             telemetry.addData("Claw (left)", robot.ClawLeftServo.getPosition());
             telemetry.addData("Claw (right)", robot.ClawRightServo.getPosition());
             telemetry.addData("Claw Countdown", clawCountdown);
