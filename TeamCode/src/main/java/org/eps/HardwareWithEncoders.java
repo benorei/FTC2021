@@ -108,6 +108,8 @@ public class HardwareWithEncoders {
 
     public int gC() { return mC.getCurrentPosition(); }
 
+    public int gARM() { return mARM.getCurrentPosition(); }
+
     //Set all drive train motors to run to a certain position.
     public void edrive(int posLF, int posRF, int posLB, int posRB) {
         mLF.setTargetPosition(gLF() + posLF);
@@ -136,6 +138,15 @@ public class HardwareWithEncoders {
 
     public void ecarousel(int ticks) {
         mC.setTargetPosition(gC() + ticks);
+    }
+
+    public void eclaw(double leftPosition, double rightPosition){
+        sCL.setPosition(leftPosition);
+        sCR.setPosition(rightPosition);
+    }
+
+    public void earm(int ticks){
+        mARM.setTargetPosition(gARM() + ticks);
     }
 
 }
