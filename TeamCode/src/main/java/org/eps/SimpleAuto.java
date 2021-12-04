@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class SimpleAuto extends LinearOpMode {
 
     //declare opmode members
-    Hardware robot = new Hardware();
+    HardwareWithEncoders robot = new HardwareWithEncoders();
 
     @Override
     public void runOpMode() {
