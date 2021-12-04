@@ -1,7 +1,6 @@
 package org.eps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -107,30 +106,36 @@ public class HardwareWithEncoders {
         return mRB.getCurrentPosition();
     }
 
+    public int gC() { return mC.getCurrentPosition(); }
+
     //Set all drive train motors to run to a certain position.
-    public void posmALL(int posLF, int posRF, int posLB, int posRB) {
+    public void edrive(int posLF, int posRF, int posLB, int posRB) {
         mLF.setTargetPosition(gLF() + posLF);
         mRF.setTargetPosition(gRF() + posRF);
         mLB.setTargetPosition(gLB() + posLB);
         mRB.setTargetPosition(gRB() + posRB);
     }
 
-    public void posmALLone(int ticks){
-        posmALL(ticks, ticks, ticks, ticks);
+    public void edriveOne(int ticks){
+        edrive(ticks, ticks, ticks, ticks);
     }
 
-    public void turnmALL(int ticks) {
+    public void eturn(int ticks) {
         mLF.setTargetPosition(gLF() - ticks);
         mRF.setTargetPosition(gRF() + ticks);
         mLB.setTargetPosition(gLB() - ticks);
         mRB.setTargetPosition(gRB() + ticks);
     }
 
-    public void strafemALL(int ticks) {
-        posmALL(gLF() + ticks,
+    public void estrafe(int ticks) {
+        edrive(gLF() + ticks,
                 gRF() -ticks,
                 gLB() -ticks,
                 gRB() + ticks);
+    }
+
+    public void ecarousel(int ticks) {
+        mC.setTargetPosition(gC() + ticks);
     }
 
 }
