@@ -90,8 +90,8 @@ public class ItsTheTeleop extends LinearOpMode {
 //                robot.setClawPosition(0.2, 0);
 //            }
 
-            double clawLeftAdjusted = (gamepad1.left_trigger * 0.4) + 0.39;
-            double clawRightAdjusted = 0.45 - (gamepad1.left_trigger * 0.4);
+            double clawLeftAdjusted = 00.39 - (gamepad1.left_trigger * 0.4);
+            double clawRightAdjusted = 0.45 +  (gamepad1.left_trigger * 0.4);
 
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
 

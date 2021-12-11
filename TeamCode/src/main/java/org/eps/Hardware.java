@@ -18,6 +18,8 @@ public class Hardware {
     public Servo ClawLeftServo = null;
     public Servo ClawRightServo = null;
 
+    public DcMotor ArmMotor = null;
+
     public DcMotor [] allMotors;
     double [] rotationArray;
     double ProblematicMotorReductionFactor = 2;
@@ -46,6 +48,8 @@ public class Hardware {
 
         ClawLeftServo = hwMap.servo.get("GLEFT");
         ClawRightServo = hwMap.servo.get("GRIGHT");
+
+        ArmMotor = hwMap.dcMotor.get("ARM");
 
 
         allMotors = new DcMotor[]{
