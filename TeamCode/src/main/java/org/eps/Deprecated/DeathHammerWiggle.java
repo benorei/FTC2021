@@ -1,9 +1,11 @@
-package org.eps;
+package org.eps.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.eps.Hardware;
 
 @TeleOp (name="death hammer", group="9884_2122")
 public class DeathHammerWiggle extends LinearOpMode {
@@ -65,11 +67,6 @@ public class DeathHammerWiggle extends LinearOpMode {
                 telemetry.update();
 
             }
-//
-//            if(!robot.ArmMotor.isBusy() || runtime.seconds() > TIMEOUTSECS) {
-//                robot.ArmMotor.setPower(0);
-//                robot.ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
 
             if(gamepad1.right_trigger > 0.5){
                 robot.ArmMotor.setPower(0);

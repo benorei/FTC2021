@@ -1,4 +1,4 @@
-package org.eps;
+package org.eps.Deprecated;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;

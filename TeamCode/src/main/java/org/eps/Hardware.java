@@ -20,8 +20,8 @@ public class Hardware {
 
     public DcMotor ArmMotor = null;
 
-    public DcMotor [] allMotors;
-    double [] rotationArray;
+    public DcMotor[] allMotors;
+    double[] rotationArray;
     double ProblematicMotorReductionFactor = 2;
 
     //Local opMode members.
@@ -33,7 +33,9 @@ public class Hardware {
         //Nothing :)
     }
 
-    double carouselPower = 0.1;
+    double CAROUSELPOWER = 0.1;
+    double ARMSPEED = 0.2;
+
 
     public void init(HardwareMap ahwMap) {
         //Save references to hardware map
@@ -56,12 +58,8 @@ public class Hardware {
                 FrontLeftMotor, FrontRightMotor, BackLeftMotor, BackRightMotor, CarouselMotor
         };
 
-        rotationArray = new double[] {-1.0, 1.0, -1.0, 1.0};
+        rotationArray = new double[]{-1.0, 1.0, -1.0, 1.0};
 
-//        BackLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-//        BackRightMotor.setDirection(DcMotor.Direction.REVERSE);
-//        FrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-//        FrontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         BackLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         BackRightMotor.setDirection(DcMotor.Direction.FORWARD);
         FrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -100,115 +98,131 @@ public class Hardware {
     milliseconds. There is no way to input degrees.
      */
 
-    public void allDrive(double power, int milliseconds){
-//        FrontLeftMotor.setPower(power);
-//        BackLeftMotor.setPower(power);
-//        FrontRightMotorFix(power);
-//        BackRightMotor.setPower(power);
+    public void allDrive(double power, int milliseconds) {
         powerAll(power, power, power, power);
-
         threadSleep(milliseconds);
-
-//        FrontLeftMotor.setPower(0);
-//        BackLeftMotor.setPower(0);
-//        FrontRightMotor.setPower(0);
-//        BackRightMotor.setPower(0);
         powerAllOne(0);
     }
 
-
-
-    public void turn(double power, int milliseconds){
-        //Front motors
-//        FrontLeftMotor.setPower(-power);
-//        FrontRightMotorFix(power);
-//        //Back motors
-//        BackLeftMotor.setPower(-power);
-//        BackRightMotor.setPower(power);
+    public void turn(double power, int milliseconds) {
         powerAll(-power, power, -power, power);
-
         threadSleep(milliseconds);
-
-//        FrontLeftMotor.setPower(0);
-//        BackLeftMotor.setPower(0);
-//        FrontRightMotor.setPower(0);
-//        BackRightMotor.setPower(0);
         powerAllOne(0);
     }
 
-    public void strafe (double power, int milliseconds) {
-//        FrontLeftMotor.setPower(power);
-//        FrontRightMotorFix(-1*power);
-//        BackLeftMotor.setPower(-1*power);
-//        BackRightMotor.setPower(power);
-        powerAll(power, -1*power, -1*power, power);
-
+    public void strafe(double power, int milliseconds) {
+        powerAll(power, -1 * power, -1 * power, power);
         threadSleep(milliseconds);
-
-//        FrontLeftMotor.setPower(0.0);
-//        FrontRightMotor.setPower(0.0);
-//        BackLeftMotor.setPower(0.0);
-//        BackRightMotor.setPower(0.0);
         powerAll(0, 0, 0, 0);
 
     }
 
-    public void powerAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
+    public void powerAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower) {
         FrontLeftMotor.setPower(frontLeftPower);
         FrontRightMotor.setPower(frontRightPower);
         BackLeftMotor.setPower(backLeftPower);
         BackRightMotor.setPower(backRightPower);
     }
 
-    public void powerAllOne(double power){
+    public void powerAllOne(double power) {
         powerAll(power, power, power, power);
     }
 
-    public void rampAll(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
-        //note: this takes 200ms to get to the inserted power.
-        powerAll((frontLeftPower + FrontLeftMotor.getPower()) / 2.5, //goes to power 1/4 in between.
-                (frontRightPower + FrontRightMotor.getPower()) / 2.5,
-                (backLeftPower + BackLeftMotor.getPower()) / 2.5,
-                (backRightPower + BackRightMotor.getPower()) / 2.5);
-        threadSleep(100);
-        powerAll((frontLeftPower + FrontLeftMotor.getPower()) / 2, //goes to power halfway in between.
-                (frontRightPower + FrontRightMotor.getPower()) / 2,
-                (backLeftPower + BackLeftMotor.getPower()) / 2,
-                (backRightPower + BackRightMotor.getPower()) / 2);
-        threadSleep(100);
-        powerAll(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+
+    public void moveArm(int delta) {
+        int newArmTarget = ArmMotor.getCurrentPosition() + delta;
+        ArmMotor.setTargetPosition(newArmTarget);
+
+        ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ArmMotor.setPower(Math.abs(ARMSPEED));
     }
 
-
-    public void pickUpCargo (){
-        //to be filled in later
-    }
-
-    public void spinCarousel (boolean forBlueSide){
+    public void spinCarousel(boolean forBlueSide) {
         if (forBlueSide) {
-            CarouselMotor.setPower(carouselPower);
+            CarouselMotor.setPower(CAROUSELPOWER);
         } else {
-            CarouselMotor.setPower(-carouselPower);
+            CarouselMotor.setPower(-CAROUSELPOWER);
         }
 
     }
 
-    public void stopCarousel(){
+    public void stopCarousel() {
         CarouselMotor.setPower(0);
     }
 
-    public void spinCarouselTimed(boolean forBlueSide, int millis){
+    public void spinCarouselTimed(boolean forBlueSide, int millis) {
         spinCarousel(forBlueSide);
         threadSleep(millis);
         stopCarousel();
     }
 
-    public void setClawPosition(double leftPosition, double rightPosition){
+    public void setClawPosition(double leftPosition, double rightPosition) {
         ClawLeftServo.setPosition(leftPosition);
         ClawRightServo.setPosition(rightPosition);
     }
 
-//    public void FrontRightMotorFix(double power){
-//        FrontRightMotor.setPower(power * ProblematicMotorReductionFactor);
-//    }
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.5;
+
+    public void encoderDrive(
+            double speed,
+            double leftInches,
+            double rightInches
+    ) {
+            int newLFTarget;
+            int newRFTarget;
+            int newLBTarget;
+            int newRBTarget;
+
+        // Determine new target position, and pass to motor controller
+        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        FrontLeftMotor.setTargetPosition(newLFTarget);
+        FrontRightMotor.setTargetPosition(newRFTarget);
+        BackLeftMotor.setTargetPosition(newLBTarget);
+        BackRightMotor.setTargetPosition(newRBTarget);
+
+        // Turn On RUN_TO_POSITION
+        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FrontLeftMotor.setPower(Math.abs(speed));
+        FrontRightMotor.setPower(Math.abs(speed));
+        BackLeftMotor.setPower(Math.abs(speed));
+        BackRightMotor.setPower(Math.abs(speed));
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+        // its target position, the motion will stop.  This is "safer" in the event that the robot will
+        // always end the motion as soon as possible.
+        // However, if you require that BOTH motors have finished their moves before the robot continues
+        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+        while (FrontLeftMotor.isBusy() && FrontRightMotor.isBusy() && BackLeftMotor.isBusy() && BackRightMotor.isBusy()) {
+            //Wait until motors are done
+        }
+
+        // Stop all motion;
+        FrontLeftMotor.setPower(0);
+        FrontRightMotor.setPower(0);
+        BackLeftMotor.setPower(0);
+        BackRightMotor.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //  sleep(250);   // optional pause after each move
+    }
 }
