@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eps.Encoder;
+package org.eps.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.eps.HardwareWithEncoders;
+import org.eps.Deprecated.HardwareWithEncoders;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.

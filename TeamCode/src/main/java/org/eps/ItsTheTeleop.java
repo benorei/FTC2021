@@ -2,6 +2,7 @@ package org.eps;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 //Controls:
@@ -31,6 +32,7 @@ public class ItsTheTeleop extends LinearOpMode {
         double driveFactor = 1;
         int carouselCountdown = 0;
         int clawCountdown = 0;
+        int newArmTarget;
 
         while(opModeIsActive()) {
             double lX = -gamepad1.left_stick_x;
@@ -78,21 +80,9 @@ public class ItsTheTeleop extends LinearOpMode {
                 //only 120ms delay
             }
 
-            //THE CLAW
-//            if(gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0.2){
-//                robot.setClawPosition(gamepad1.left_trigger, -gamepad1.right_trigger);
-////                clawCountdown = 2;
-//            } else {
-////                clawCountdown -= 1;
-//            }
-//
-//            if(gamepad1.right_trigger == 0 && gamepad1.left_trigger <= 0.2){
-//                robot.setClawPosition(0.2, 0);
-//            }
-
+            //Claw Code
             double clawLeftAdjusted = 00.39 - (gamepad1.left_trigger * 0.4);
             double clawRightAdjusted = 0.45 +  (gamepad1.left_trigger * 0.4);
-
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
 
 
@@ -108,6 +98,42 @@ public class ItsTheTeleop extends LinearOpMode {
             telemetry.update();
 
             sleep(40);
+
+            //ARM CODE
+            int armDelta = 0;
+
+            if(gamepad1.dpad_up && gamepad1.b) {
+                armDelta += 10;
+            }
+            if(gamepad1.dpad_down && gamepad1.b) {
+                armDelta -= 10;
+            }
+            if(gamepad1.dpad_up) {
+                armDelta += 100;
+            }
+            if(gamepad1.dpad_down) {
+                armDelta -= 100;
+            }
+
+            if(armDelta != 0) {
+                newArmTarget = robot.ArmMotor.getCurrentPosition() + armDelta;
+                robot.ArmMotor.setTargetPosition(newArmTarget);
+
+                robot.ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                runtime.reset();
+                robot.ArmMotor.setPower(Math.abs(robot.ARMSPEED));
+
+                telemetry.addData("Path1", "Running to %7d", newArmTarget);
+                telemetry.addData("Path2", "Running at %7d", robot.ArmMotor.getCurrentPosition());
+                telemetry.update();
+
+            }
+
+            if(gamepad1.right_trigger > 0.5){
+                robot.ArmMotor.setPower(0);
+                robot.ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
 
         }
 

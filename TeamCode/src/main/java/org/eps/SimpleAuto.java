@@ -4,13 +4,13 @@ package org.eps;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.eps.HardwareWithEncoders;
+import org.eps.Deprecated.HardwareWithEncoders;
 
 @Autonomous(name="Simple Auto", group="9884")
 public class SimpleAuto extends LinearOpMode {
 
     //declare opmode members
-    HardwareWithEncoders robot = new org.eps.HardwareWithEncoders();
+    HardwareWithEncoders robot = new HardwareWithEncoders();
 
     @Override
     public void runOpMode() {

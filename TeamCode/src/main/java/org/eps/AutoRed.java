@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name="AutoRed", group="9884")
 public class AutoRed extends LinearOpMode {
 
+
+    //by xinyuan d
     //declare opmode members
     Hardware robot = new Hardware();
 
