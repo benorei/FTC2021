@@ -28,8 +28,8 @@ public class ForwardBack extends LinearOpMode {
 
         //CHANGE VALUES LATER
         //robot starts with side on wall
-        robot.allDrive(0.5, 5000);
-        robot.allDrive(-0.5, 5000);
+        robot.encoderDrive(0.5, 24, 24, 24, 24);
+        robot.encoderDrive(-0.5, 24, 24, 24, 24);
 
         //stuff u want to do goes here
     }

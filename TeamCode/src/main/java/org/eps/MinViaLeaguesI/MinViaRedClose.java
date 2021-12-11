@@ -1,4 +1,4 @@
-package org.eps.MinVia;
+package org.eps.MinViaLeaguesI;
 
 //Terminator, Destroyer of All, Bane of Android Studio
 

@@ -19,6 +19,8 @@ public class ItsTheTeleop extends LinearOpMode {
 
     Hardware robot = new Hardware();
 
+
+
     //Code to run once at init
     @Override
     public void runOpMode() {
@@ -81,23 +83,11 @@ public class ItsTheTeleop extends LinearOpMode {
             }
 
             //Claw Code
-            double clawLeftAdjusted = 00.39 - (gamepad1.left_trigger * 0.4);
+            double clawLeftAdjusted = 0.4 - (gamepad1.left_trigger * 0.4);
             double clawRightAdjusted = 0.45 +  (gamepad1.left_trigger * 0.4);
+
+
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
-
-
-            telemetry.addData("LF encoder", robot.FrontLeftMotor.getCurrentPosition());
-            telemetry.addData("Claw (left)", robot.ClawLeftServo.getPosition());
-            telemetry.addData("Claw (right)", robot.ClawRightServo.getPosition());
-            telemetry.addData("Claw Countdown", clawCountdown);
-            telemetry.addData("Carousel Countdown", carouselCountdown);
-            telemetry.addData("dsAngle", dsAngle);
-            telemetry.addData("dsWeight", dsWeight);
-            telemetry.addData("rotPower", rotPower);
-            telemetry.addData("rotWeight", rotWeight);
-            telemetry.update();
-
-            sleep(40);
 
             //ARM CODE
             int armDelta = 0;
@@ -134,6 +124,21 @@ public class ItsTheTeleop extends LinearOpMode {
                 robot.ArmMotor.setPower(0);
                 robot.ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
+
+            telemetry.addData("LF encoder", robot.FrontLeftMotor.getCurrentPosition());
+            telemetry.addData("Claw (left)", robot.ClawLeftServo.getPosition());
+            telemetry.addData("Claw (right)", robot.ClawRightServo.getPosition());
+            telemetry.addData("Claw Countdown", clawCountdown);
+            telemetry.addData("Carousel Countdown", carouselCountdown);
+            telemetry.addData("dsAngle", dsAngle);
+            telemetry.addData("dsWeight", dsWeight);
+            telemetry.addData("rotPower", rotPower);
+            telemetry.addData("rotWeight", rotWeight);
+            telemetry.update();
+
+            sleep(40);
+
+
 
         }
 
