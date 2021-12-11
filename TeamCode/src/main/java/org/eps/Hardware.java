@@ -170,21 +170,17 @@ public class Hardware {
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
 
-    public void encoderDrive(
-            double speed,
-            double leftInches,
-            double rightInches
-    ) {
-            int newLFTarget;
-            int newRFTarget;
-            int newLBTarget;
-            int newRBTarget;
+    public void encoderDrive( double speed, double lfInches, double rfInches, double lbInches, double rbInches ) {
+        int newLFTarget;
+        int newRFTarget;
+        int newLBTarget;
+        int newRBTarget;
 
         // Determine new target position, and pass to motor controller
-        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(lfInches * COUNTS_PER_INCH);
+        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(rfInches * COUNTS_PER_INCH);
+        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(lbInches * COUNTS_PER_INCH);
+        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(rbInches * COUNTS_PER_INCH);
         FrontLeftMotor.setTargetPosition(newLFTarget);
         FrontRightMotor.setTargetPosition(newRFTarget);
         BackLeftMotor.setTargetPosition(newLBTarget);
