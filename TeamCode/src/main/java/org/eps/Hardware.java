@@ -162,25 +162,17 @@ public class Hardware {
         ClawRightServo.setPosition(rightPosition);
     }
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
-
-    public void encoderDrive( double speed, double lfInches, double rfInches, double lbInches, double rbInches ) {
+    public void encoderDrive( double speed, double LFticks, double RFticks, double LBticks, double RBticks ) {
         int newLFTarget;
         int newRFTarget;
         int newLBTarget;
         int newRBTarget;
 
         // Determine new target position, and pass to motor controller
-        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(lfInches * COUNTS_PER_INCH);
-        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(rfInches * COUNTS_PER_INCH);
-        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(lbInches * COUNTS_PER_INCH);
-        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(rbInches * COUNTS_PER_INCH);
+        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(LFticks);
+        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(RFticks);
+        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(LBticks);
+        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(RBticks);
         FrontLeftMotor.setTargetPosition(newLFTarget);
         FrontRightMotor.setTargetPosition(newRFTarget);
         BackLeftMotor.setTargetPosition(newLBTarget);

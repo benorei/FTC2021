@@ -24,11 +24,10 @@ public class MinViaBlueClose extends LinearOpMode {
         waitForStart();
         //stuff u want to do goes here
 
-        robot.strafe(-0.4, 500);
 
         robot.threadSleep(1000);
 
-        robot.allDrive(0.4, 1000);
+        robot.allDrive(0.3, 1200);
 
         robot.spinCarouselTimed(true, 1000);
 

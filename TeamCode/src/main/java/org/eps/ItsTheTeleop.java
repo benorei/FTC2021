@@ -31,7 +31,15 @@ public class ItsTheTeleop extends LinearOpMode {
         ElapsedTime runtime= new ElapsedTime();
         waitForStart();
 
+        //SLOWMODE
         double driveFactor = 1;
+        if(gamepad1.right_trigger > 0.25){
+            driveFactor = 0.5;
+        }
+        if(gamepad1.right_trigger > 0.75){
+            driveFactor = 0.25;
+        }
+
         int carouselCountdown = 0;
         int clawCountdown = 0;
         int newArmTarget;
@@ -83,8 +91,8 @@ public class ItsTheTeleop extends LinearOpMode {
             }
 
             //Claw Code
-            double clawLeftAdjusted = 0.4 - (gamepad1.left_trigger * 0.4);
-            double clawRightAdjusted = 0.45 +  (gamepad1.left_trigger * 0.4);
+            double clawLeftAdjusted = 0.55 - (gamepad1.left_trigger * 0.45);
+            double clawRightAdjusted = 0.25 +  (gamepad1.left_trigger * 0.5);
 
 
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
@@ -120,7 +128,7 @@ public class ItsTheTeleop extends LinearOpMode {
 
             }
 
-            if(gamepad1.right_trigger > 0.5){
+            if(gamepad1.x){
                 robot.ArmMotor.setPower(0);
                 robot.ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
