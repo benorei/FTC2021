@@ -33,8 +33,10 @@ public class Hardware {
         //Nothing :)
     }
 
-    double CAROUSELPOWER = 0.1;
-    double ARMSPEED = 0.2;
+    double CAROUSELPOWER = 0.2;
+    double ARMSPEED = 0.4;
+//    double ARMSPEEDFAST = 0.4;
+    double ARMSPEEDCHANGETHRESHOLD = -550;
 
 
     public void init(HardwareMap ahwMap) {

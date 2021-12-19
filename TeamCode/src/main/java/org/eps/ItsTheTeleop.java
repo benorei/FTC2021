@@ -91,8 +91,8 @@ public class ItsTheTeleop extends LinearOpMode {
             }
 
             //Claw Code
-            double clawLeftAdjusted = 0.55 - (gamepad1.left_trigger * 0.45);
-            double clawRightAdjusted = 0.25 +  (gamepad1.left_trigger * 0.5);
+            double clawLeftAdjusted = 0.55 - (gamepad1.left_trigger * 0.4);
+            double clawRightAdjusted = 0.25 +  (gamepad1.left_trigger * 0.4);
 
 
             robot.setClawPosition(clawLeftAdjusted, clawRightAdjusted);
@@ -107,14 +107,15 @@ public class ItsTheTeleop extends LinearOpMode {
                 armDelta -= 10;
             }
             if(gamepad1.dpad_up) {
-                armDelta += 100;
+                armDelta += 50;
             }
             if(gamepad1.dpad_down) {
-                armDelta -= 100;
+                armDelta -= 50;
             }
 
             if(armDelta != 0) {
                 newArmTarget = robot.ArmMotor.getCurrentPosition() + armDelta;
+
                 robot.ArmMotor.setTargetPosition(newArmTarget);
 
                 robot.ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -122,9 +123,6 @@ public class ItsTheTeleop extends LinearOpMode {
                 runtime.reset();
                 robot.ArmMotor.setPower(Math.abs(robot.ARMSPEED));
 
-                telemetry.addData("Path1", "Running to %7d", newArmTarget);
-                telemetry.addData("Path2", "Running at %7d", robot.ArmMotor.getCurrentPosition());
-                telemetry.update();
 
             }
 
@@ -133,6 +131,7 @@ public class ItsTheTeleop extends LinearOpMode {
                 robot.ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
+            telemetry.addData("arm pos", robot.ArmMotor.getCurrentPosition());
             telemetry.addData("LF encoder", robot.FrontLeftMotor.getCurrentPosition());
             telemetry.addData("Claw (left)", robot.ClawLeftServo.getPosition());
             telemetry.addData("Claw (right)", robot.ClawRightServo.getPosition());
