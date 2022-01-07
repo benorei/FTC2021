@@ -4,8 +4,11 @@ package org.eps.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.eps.Hardware;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 //SKELETON
 //By Everest & Xinyuan
@@ -26,8 +29,8 @@ public class ForwardBack extends LinearOpMode {
 
         waitForStart();
 
-        robot.encoderDrive(0.5, 2000, 2000, 2000, 2000);
-        robot.encoderDrive(-0.5, 2000, 2000, 2000, 2000);
+        robot.encoderDrive(0.1, 2000, 2000, 2000, 2000, telemetry);
+//        robot.localEncoderDrive(-0.5, 2000, 2000, 2000, 2000, telemetry);
 
         //stuff u want to do goes here
     }

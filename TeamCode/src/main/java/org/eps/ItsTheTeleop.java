@@ -91,7 +91,7 @@ public class ItsTheTeleop extends LinearOpMode {
             }
 
             //Claw Code
-            double clawLeftAdjusted = 0.55 - (gamepad1.left_trigger * 0.4);
+            double clawLeftAdjusted = 0.2 - (gamepad1.left_trigger * 0.4);
             double clawRightAdjusted = 0.25 +  (gamepad1.left_trigger * 0.4);
 
 

@@ -4,9 +4,12 @@ package org.eps;
 //The robot's name is Sketchy Boi.
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Hardware {
     public DcMotor FrontLeftMotor = null;
@@ -35,7 +38,6 @@ public class Hardware {
 
     double CAROUSELPOWER = 0.2;
     double ARMSPEED = 0.4;
-//    double ARMSPEEDFAST = 0.4;
     double ARMSPEEDCHANGETHRESHOLD = -550;
 
 
@@ -47,7 +49,7 @@ public class Hardware {
         FrontLeftMotor = hwMap.dcMotor.get("LF");
         FrontRightMotor = hwMap.dcMotor.get("RF");
         BackLeftMotor = hwMap.dcMotor.get("LB");
-        BackRightMotor = hwMap.dcMotor.get("RB"); //CHANGE TO RB
+        BackRightMotor = hwMap.dcMotor.get("RB");
         CarouselMotor = hwMap.dcMotor.get("CAROUSEL");
 
         ClawLeftServo = hwMap.servo.get("GLEFT");
@@ -164,7 +166,7 @@ public class Hardware {
         ClawRightServo.setPosition(rightPosition);
     }
 
-    public void encoderDrive( double speed, double LFticks, double RFticks, double LBticks, double RBticks ) {
+    public void encoderDrive( double speed, double LFticks, double RFticks, double LBticks, double RBticks, Telemetry tel) {
         int newLFTarget;
         int newRFTarget;
         int newLBTarget;
@@ -179,6 +181,19 @@ public class Hardware {
         FrontRightMotor.setTargetPosition(newRFTarget);
         BackLeftMotor.setTargetPosition(newLBTarget);
         BackRightMotor.setTargetPosition(newRBTarget);
+
+        tel.addData("Locked & loaded.", "Waiting 5 seconds.");
+        tel.addData("LF position", FrontLeftMotor.getCurrentPosition());
+        tel.addData("LF target", FrontLeftMotor.getTargetPosition());
+        tel.addData("RF position", FrontRightMotor.getCurrentPosition());
+        tel.addData("RF target", FrontRightMotor.getTargetPosition());
+        tel.addData("LB position", BackLeftMotor.getCurrentPosition());
+        tel.addData("LB target", BackLeftMotor.getTargetPosition());
+        tel.addData("RB position", BackRightMotor.getCurrentPosition());
+        tel.addData("RB target", BackRightMotor.getTargetPosition());
+        tel.update();
+
+        threadSleep(5000);
 
         // Turn On RUN_TO_POSITION
         FrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -198,7 +213,15 @@ public class Hardware {
         // However, if you require that BOTH motors have finished their moves before the robot continues
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
         while (FrontLeftMotor.isBusy() && FrontRightMotor.isBusy() && BackLeftMotor.isBusy() && BackRightMotor.isBusy()) {
-            //Wait until motors are done
+            tel.addData("LF position", FrontLeftMotor.getCurrentPosition());
+            tel.addData("LF target", FrontLeftMotor.getTargetPosition());
+            tel.addData("RF position", FrontRightMotor.getCurrentPosition());
+            tel.addData("RF target", FrontRightMotor.getTargetPosition());
+            tel.addData("LB position", BackLeftMotor.getCurrentPosition());
+            tel.addData("LB target", BackLeftMotor.getTargetPosition());
+            tel.addData("RB position", BackRightMotor.getCurrentPosition());
+            tel.addData("RB target", BackRightMotor.getTargetPosition());
+            tel.update();
         }
 
         // Stop all motion;
