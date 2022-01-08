@@ -29,7 +29,7 @@ public class ForwardBack extends LinearOpMode {
 
         waitForStart();
 
-        robot.encoderDrive(0.1, 2000, 2000, 2000, 2000, telemetry);
+        robot.encoderDrive(0.5, 2000, 2000, 2000, 2000, telemetry);
 //        robot.localEncoderDrive(-0.5, 2000, 2000, 2000, 2000, telemetry);
 
         //stuff u want to do goes here

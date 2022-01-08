@@ -48,7 +48,7 @@ public class ItsTheTeleop extends LinearOpMode {
             double lX = -gamepad1.left_stick_x;
             double lY = -gamepad1.left_stick_y;
             double rX = -gamepad1.right_stick_x;
-            double rY = gamepad1.right_stick_y;
+            double rY = -gamepad1.right_stick_y;
             //Mr. Mein's Math
             double dsAngle = Math.atan2(lX, lY);
             double dsWeight = Math.sqrt(lX * lX + lY * lY);

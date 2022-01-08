@@ -36,7 +36,7 @@ public class Hardware {
         //Nothing :)
     }
 
-    double CAROUSELPOWER = 0.2;
+    double CAROUSELPOWER = 0.1;
     double ARMSPEED = 0.4;
     double ARMSPEEDCHANGETHRESHOLD = -550;
 
@@ -166,17 +166,20 @@ public class Hardware {
         ClawRightServo.setPosition(rightPosition);
     }
 
-    public void encoderDrive( double speed, double LFticks, double RFticks, double LBticks, double RBticks, Telemetry tel) {
+    public void encoderDrive( double speed, int LFticks, int RFticks, int LBticks, int RBticks, Telemetry tel) {
         int newLFTarget;
         int newRFTarget;
         int newLBTarget;
         int newRBTarget;
 
+        //This motor is stupid.
+//        FrontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
         // Determine new target position, and pass to motor controller
-        newLFTarget = FrontLeftMotor.getCurrentPosition() + (int)(LFticks);
-        newRFTarget = FrontRightMotor.getCurrentPosition() + (int)(RFticks);
-        newLBTarget = BackLeftMotor.getCurrentPosition() + (int)(LBticks);
-        newRBTarget = BackRightMotor.getCurrentPosition() + (int)(RBticks);
+        newLFTarget = FrontLeftMotor.getCurrentPosition() + LFticks;
+        newRFTarget = FrontRightMotor.getCurrentPosition() + RFticks;
+        newLBTarget = BackLeftMotor.getCurrentPosition() + LBticks;
+        newRBTarget = BackRightMotor.getCurrentPosition() + RBticks;
         FrontLeftMotor.setTargetPosition(newLFTarget);
         FrontRightMotor.setTargetPosition(newRFTarget);
         BackLeftMotor.setTargetPosition(newLBTarget);
@@ -184,13 +187,18 @@ public class Hardware {
 
         tel.addData("Locked & loaded.", "Waiting 5 seconds.");
         tel.addData("LF position", FrontLeftMotor.getCurrentPosition());
-        tel.addData("LF target", FrontLeftMotor.getTargetPosition());
+        tel.addData("LF target (should be " + newLFTarget + ")", FrontLeftMotor.getTargetPosition());
+        tel.addData("LF ticks", LFticks);
         tel.addData("RF position", FrontRightMotor.getCurrentPosition());
-        tel.addData("RF target", FrontRightMotor.getTargetPosition());
+        tel.addData("RF target (should be " + newRFTarget + ")", FrontRightMotor.getTargetPosition());
+        tel.addData("RF ticks", RFticks);
         tel.addData("LB position", BackLeftMotor.getCurrentPosition());
-        tel.addData("LB target", BackLeftMotor.getTargetPosition());
+        tel.addData("LB target (should be " + newLBTarget + ")", BackLeftMotor.getTargetPosition());
+        tel.addData("LB ticks", LBticks);
         tel.addData("RB position", BackRightMotor.getCurrentPosition());
-        tel.addData("RB target", BackRightMotor.getTargetPosition());
+        tel.addData("RB target (should be " + newRBTarget + ")", BackRightMotor.getTargetPosition());
+        tel.addData("RB ticks", RBticks);
+        tel.addData("Speed", speed);
         tel.update();
 
         threadSleep(5000);
@@ -200,6 +208,8 @@ public class Hardware {
         FrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BackLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BackRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
 
         FrontLeftMotor.setPower(Math.abs(speed));
         FrontRightMotor.setPower(Math.abs(speed));
@@ -236,6 +246,8 @@ public class Hardware {
         FrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //  sleep(250);   // optional pause after each move
+//        FrontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        threadSleep(1000);// optional pause after each move
     }
 }
