@@ -1,16 +1,16 @@
 ## NOTICE
 
-This repository contains the public FTC SDK for the Freight Frenzy (2021-2022) competition season.
+This repository contains the public FTC SDK for the POWERPLAY (2022-2023) competition season.
 
 ## Welcome!
 This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.  To use this SDK, download/clone the entire project to your local computer.
 
 ## Getting Started
-If you are new to robotics or new to the *FIRST* Tech Challenge, then you should consider reviewing the [FTC Blocks Tutorial](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Blocks-Tutorial) to get familiar with how to use the control system:
+If you are new to robotics or new to the *FIRST* Tech Challenge, then you should consider reviewing the [FTC Blocks Tutorial](https://ftc-docs.firstinspires.org/programming_resources/blocks/Blocks-Tutorial.html) to get familiar with how to use the control system:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Blocks Online Tutorial](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Blocks-Tutorial)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Blocks Online Tutorial](https://ftc-docs.firstinspires.org/programming_resources/blocks/Blocks-Tutorial.html)
 
-Even if you are an advanced Java programmer, it is helpful to start with the [FTC Blocks tutorial](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Blocks-Tutorial), and then migrate to the [OnBot Java Tool](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/OnBot-Java-Tutorial) or to [Android Studio](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Android-Studio-Tutorial) afterwards.
+Even if you are an advanced Java programmer, it is helpful to start with the [FTC Blocks tutorial](https://ftc-docs.firstinspires.org/programming_resources/blocks/Blocks-Tutorial.html), and then migrate to the [OnBot Java Tool](https://ftc-docs.firstinspires.org/programming_resources/onbot_java/OnBot-Java-Tutorial.html) or to [Android Studio](https://ftc-docs.firstinspires.org/programming_resources/android_studio_java/Android-Studio-Tutorial.html) afterwards.
 
 ## Downloading the Project
 If you are an Android Studio programmer, there are several ways to download this repo.  Note that if you use the Blocks or OnBot Java Tool to program your robot, then you do not need to download this repository.
@@ -31,19 +31,19 @@ Once you have downloaded and uncompressed (if needed) your folder, you can use A
 ### User Documentation and Tutorials
 *FIRST* maintains online documentation with information and tutorials on how to use the *FIRST* Tech Challenge software and robot control system.  You can access this documentation using the following link:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FtcRobotController Online Documentation](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FIRST Tech Challenge Documentation](https://ftc-docs.firstinspires.org/index.html)
 
 Note that the online documentation is an "evergreen" document that is constantly being updated and edited.  It contains the most current information about the *FIRST* Tech Challenge software and control system.
 
 ### Javadoc Reference Material
 The Javadoc reference documentation for the FTC SDK is now available online.  Click on the following link to view the FTC SDK Javadoc documentation as a live website:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Javadoc Documentation](https://javadoc.io/org.firstinspires.ftc)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Javadoc Documentation](https://javadoc.io/doc/org.firstinspires.ftc)
 
 ### Online User Forum
-For technical questions regarding the Control System or the FTC SDK, please visit the FTC Technology forum:
+For technical questions regarding the Control System or the FTC SDK, please visit the FIRST Tech Challenge Community site:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Technology Forum](https://ftcforum.firstinspires.org/forum/ftc-technology)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FIRST Tech Challenge Community](https://ftc-community.firstinspires.org/)
 
 ### Sample OpModes
 This project contains a large selection of Sample OpModes (robot code examples) which can be cut and pasted into your /teamcode folder to be used as-is, or modified to suit your team's needs.
@@ -53,6 +53,195 @@ Samples Folder: &nbsp;&nbsp; [/FtcRobotController/src/main/java/org/firstinspire
 The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc/teamcode](TeamCode/src/main/java/org/firstinspires/ftc/teamcode) folder contains an explanation of the sample naming convention, and instructions on how to copy them to your own project space.
 
 # Release Information
+
+## Version 8.1.1 (20221201-150726)
+
+This is a bug fix only release to address the following four issues.
+
+* [Issue #495](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/495) - Can't create new blocks opmodes.
+* [Issue #492](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/492) - Remove the final modifier from the OpMode's Telemetry object.
+* [Issue #500](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/500) - Some devices cannot be configured when the Driver Station app has been updated to 8.1
+  * Updating either the Robot Controller app or the Driver Station app to 8.1.1 or later will fix this issue.
+* The Modern Robotics touch sensor was configurable as a  Digital Device. It can only be used as an Analog Device.
+
+## Version 8.1 (20221121-115119)
+
+### Breaking Changes
+* Deprecates the `OpMode` fields `msStuckDetectInit`, `msStuckDetectInitLoop`, `msStuckDetectStart`, `msStuckDetectLoop`, and `msStuckDetectStop`.
+    * Op Modes no longer have a time limit for `init()`, `init_loop()`, `start()` or `loop()`, so the fields corresponding to those methods are no longer used.
+    * `stop()` still has a time limit, but it is now hardcoded to be 1 second, and cannot be changed using `msStuckDetectStop`.
+* Deprecates the `OpMode` methods `internalPreInit()`, `internalPostInitLoop()`, and `internalPostLoop()`.
+    * Iterative `OpMode`s will continue to call these methods in case they were overridden.
+    * These methods will not be called at all for `LinearOpMode`s.
+* Deprecates (and stops respecting) `DeviceProperties.xmlTagAliases`.
+
+### Enhancements
+* Adds a new `IMU` interface to Blocks and Java that can be used with both the original BNO055 IMU
+  included in all older Control Hubs and Expansion Hubs, and the new alternative BHI260AP IMU.
+  * You can determine which type of IMU is in your Control Hub by navigating to the Manage page of the web interface.
+  * To learn how to use the new `IMU` interface, see https://ftc-docs.firstinspires.org/programming_resources/imu/imu.html. The `SensorIMU` Blocks sample was also updated to use the new `IMU` interface, and the following Java samples were added:
+    * `SensorIMUOrthogonal`
+      * Use this sample if your REV Hub is mounted so that it is parallel or perpendicular to the
+        bottom of your robot.
+    * `SensorIMUNonOrthogonal`
+      * Use this sample if your REV Hub is mounted to your robot in any other orientation
+    * `ConceptExploringIMUOrientations`
+      * This Op Mode is a tool to help you understand how the orthogonal orientations work, and
+        which one applies to your robot.
+  * The BHI260AP IMU can only be accessed via the new `IMU` interface. The BNO055 IMU can be
+    programmed using the new `IMU` interface, or you can continue to program it using the old `BNO055IMU`
+    interface. If you want to be able to quickly switch to a new Control Hub that may contain the
+    BHI260AP IMU, you should migrate your code to use the new `IMU` interface.
+  * Unlike the old `BNO055IMU` interface, which only worked correctly when the REV Hub was mounted flat
+    on your robot, the `IMU` interface allows you to specify the orientation of the REV Hub on your
+    robot. It will account for this, and give you your orientation in a Robot Coordinate System,
+    instead of a special coordinate system for the REV Hub. As a result, your pitch and yaw will be
+    0 when your *robot* is level, instead of when the REV Hub is level, which will result in much
+    more reliable orientation angle values for most mounting orientations.
+  * Because of the new robot-centric coordinate system, the pitch and roll angles returned by the
+    `IMU` interface will be different from the ones returned by the `BNO055IMU` interface. When you are
+    migrating your code, pay careful attention to the documentation.
+  * If you have calibrated your BNO055, you can provide that calibration data to the new `IMU`
+    interface by passing a `BNO055IMUNew.Parameters` instance to `IMU.initialize()`. 
+  * The `IMU` interface is also suitable for implementation by third-party vendors for IMUs that
+    support providing the orientation in the form of a quaternion.
+* Iterative `OpMode`s (as opposed to `LinearOpMode`s) now run on a dedicated thread.
+    * Cycle times should not be as impacted by everything else going on in the system.
+    * Slow `OpMode`s can no longer increase the amount of time it takes to process network commands, and vice versa.
+    * The `init()`, `init_loop()`, `start()` and `loop()` methods no longer need to return within a certain time frame.
+* BNO055 IMU legacy driver: restores the ability to initialize in one Op Mode, and then have another Op Mode re-use that
+  initialization. This allows you to maintain the 0-yaw position between Op Modes, if desired.
+* Allows customized versions of device drivers in the FTC SDK to use the same XML tag.
+  * Before, if you wanted to customize a device driver, you had to copy it to a new class _and_ give
+    it a new XML tag. Giving it a new XML tag meant that to switch which driver was being used, you
+    had to modify your configuration file.
+  * Now, to use your custom driver, all you have to do is specify your custom driver's class when
+    calling `hardwareMap.get()`. To go back to the original driver, specify the original driver
+    class. If you specify an interface that is implemented by both the original driver and the
+    custom driver, there is no guarantee about which implementation will be returned.
+
+### Bug Fixes
+* Fixes accessing the "Manage TensorFlow Lite Models" and "Manage Sounds" links and performing
+  Blocks and OnBotJava Op Mode downloads from the REV Hardware Client.
+* Fixes issue where an I2C device driver would be auto-initialized using the parameters assigned in
+  a previous Op Mode run.
+* Improves Driver Station popup menu placement in the landscape layout.
+* Fixes NullPointerException when attempting to get a non-configured BNO055 IMU in a Blocks Op Mode on an RC phone.
+* Fixes problem with Blocks if a variable is named `orientation`.
+
+## Version 8.0 (20220907-131644)
+
+### Breaking Changes
+* Increases the Robocol version.
+  * This means an 8.0 or later Robot Controller or Driver Station will not be able to communicate with a 7.2 or earlier Driver Station or Robot Controller.
+  * If you forget to update both apps at the same time, an error message will be shown explaining which app is older and should be updated.
+* Initializing I2C devices now happens when you retrieve them from the `HardwareMap` for the first time.
+  * Previously, all I2C devices would be initialized before the Op Mode even began executing,
+    whether you were actually going to use them or not. This could result in reduced performance and
+    unnecessary warnings.
+  * With this change, it is very important for Java users to retrieve all needed devices from the
+    `HardwareMap` **during the Init phase of the Op Mode**. Namely, declare a variable for each hardware
+    device the Op Mode will use, and assign a value to each. Do not do this during the Run phase, or your
+    Op Mode may briefly hang while the devices you are retrieving get initialized.
+  * Op Modes that do not use all of the I2C devices specified in the configuration file should take
+    less time to initialize. Op Modes that do use all of the specified I2C devices should take the
+    same amount of time as previously.
+* Fixes [issue #251](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/251) by changing the order in which axis rotation rates are read from the angular velocity vector in the BNO055 IMU driver.
+* Deprecates `pitchMode` in `BNO055IMU.Parameters`.
+  * Setting `pitchMode` to `PitchMode.WINDOWS` would break the coordinate conventions used by the driver.
+* Moves `OpModeManagerImpl` to the `com.qualcomm.robotcore.eventloop.opmode` package.
+  * This breaks third party libraries EasyOpenCV (version 1.5.1 and earlier) and FTC Dashboard (version 0.4.4 and earlier).
+* Deletes the deprecated `OpMode` method `resetStartTime()` (use `resetRuntime()` instead).
+* Deletes the protected `LinearOpMode.LinearOpModeHelper` class (which was not meant for use by Op Modes).
+* Removes I2C Device (Synchronous) config type (deprecated since 2018)
+
+### Enhancements
+* Uncaught exceptions in Op Modes no longer require a Restart Robot
+  * A blue screen popping up with a stacktrace is not an SDK error; this replaces the red text in the telemetry area.
+  * Since the very first SDK release, Op Mode crashes have put the robot into "EMERGENCY STOP" state, only showing the first line of the exception, and requiring the user to press "Restart Robot" to continue
+  * Exceptions during an Op Mode now open a popup window with the same color scheme as the log viewer, containing 15 lines of the exception stacktrace to allow easily tracing down the offending line without needing to connect to view logs over ADB or scroll through large amounts of logs in the log viewer.
+  * The exception text in the popup window is both zoomable and scrollable just like a webpage.
+  * Pressing the "OK" button in the popup window will return to the main screen of the Driver Station and allow an Op Mode to be run again immediately, without the need to perform a "Restart Robot"
+* Adds new Java sample to demonstrate using a hardware class to abstract robot actuators, and share them across multiple Op Modes.
+  * Sample Op Mode is [ConceptExternalHardwareClass.java](FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptExternalHardwareClass.java)
+  * Abstracted hardware class is [RobotHardware.java](FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotHardware.java)
+* Updates RobotAutoDriveByGyro_Linear Java sample to use REV Control/Expansion hub IMU.
+* Updates Vuforia samples to reference PowerPlay assets and have correct names and field locations of image targets.
+* Updates TensorFlow samples to reference PowerPlay assets.
+* Adds opt-in support for Java 8 language features to the OnBotJava editor.
+  * To opt in, open the OnBotJava Settings, and check `Enable beta Java 8 support`.
+  * Note that Java 8 code will only compile when the Robot Controller runs Android 7.0 Nougat or later.
+  * Please report issues [here](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues).
+* In OnBotJava, clicking on build errors now correctly jumps to the correct location.
+* Improves OnBotJava autocomplete behavior, to provide better completion options in most cases.
+* Adds a QR code to the Robot Controller Inspection Report when viewed from the Driver Station for scanning by inspectors at competition.
+* Improves I2C performance and reliability in some scenarios.
+
+## Version 7.2 (20220723-130006)
+
+### Breaking Changes
+* Updates the build tooling.  For Android Studio users, this change requires Android Studio Chipmunk 2021.2.1.
+* Removes support for devices that are not competition legal, including Modern Robotics Core Control Modules, the Matrix Controller, and HiTechnic/NXT controllers and sensors.  Support remains for Modern Robotics I2C sensors.
+
+### Enhancements
+* Increases the height of the 3-dots Landscape menu touch area on the Driver Station, making it much easier to select.
+* Adds `terminateOpModeNow()` method to allow OpModes to cleanly self-exit immediately.
+* Adds `opModeInInit()` method to `LinearOpMode` to facilitate init-loops. Similar to `opModeIsActive()` but for the init phase.
+* Warns user if they have a Logitech F310 gamepad connected that is set to DirectInput mode.
+* Allows SPARKmini motor controllers to react more quickly to speed changes.
+* Hides the version number of incorrectly installed sister app (i.e. DS installed on RC device or vice-versa) on inspection screen.
+* Adds support for allowing the user to edit the comment for the runOpMode block.
+* Adds parameterDefaultValues field to @ExportToBlocks. This provides the ability for a java method with an @ExportToBlocks annotation to specify default values for method parameters when it is shown in the block editor.
+* Make LinearOpMode blocks more readable. The opmode name is displayed on the runOpMode block, but not on the other LinearOpMode blocks.
+* Added support to TensorFlow Object Detection for using a different frame generator, instead of Vuforia.
+  Using Vuforia to pass the camera frame to TFOD is still supported.
+* Removes usage of Renderscript.
+* Fixes logspam on app startup of repeated stacktraces relating to `"Failed resolution of: Landroid/net/wifi/p2p/WifiP2pManager$DeviceInfoListener"`
+* Allows disabling bluetooth radio from inspection screen
+* Improves warning messages when I2C devices are not responding
+* Adds support for controlling the RGB LED present on PS4/Etpark gamepads from OpModes
+* Removes legacy Pushbot references from OpMode samples.  Renames "Pushbot" samples to "Robot".  Motor directions reversed to be compatible with "direct Drive" drive train. 
+ 
+
+### Bug fixes
+* Fixes [issue #316](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/316) (MatrixF.inverted() returned an incorrectly-sized matrix for 1x1 and 2x2 matrixes).
+* Self inspect now allows for Driver Station and Robot Controller compatibility between point releases.
+* Fixes bug where if the same `RumbleEffect` object instance was queued for multiple gamepads, it
+  could happen that both rumble commands would be sent to just one gamepad.
+* Fixes bug in Driver Station where on the Driver Hub, if Advanced Gamepad Features was disabled and
+  an officially supported gamepad was connected, then opening the Advanced Gamepad Features or
+  Gamepad Type Overrides screens would cause the gamepad to be rebound by the custom USB driver even
+  though advanced gamepad features was disabled.
+* Protects against (unlikely) null pointer exception in Vuforia Localizer.
+* Harden OnBotJava and Blocks saves to protect against save issues when disconnecting from Program and Manage
+* Fixes issue where the RC app would hang if a REV Hub I2C write failed because the previous I2C
+  operation was still in progress. This hang most commonly occurred during REV 2M Distance Sensor initialization
+* Removes ConceptWebcam.java sample program.  This sample is not compatible with OnBotJava.
+* Fixes bug where using html tags in an @ExportToBlocks comment field prevented the blocks editor from loading.
+* Fixes blocks editor so it doesn't ask you to save when you haven't modified anything.
+* Fixes uploading a very large blocks project to offline blocks editor.
+* Fixes bug that caused blocks for DcMotorEx to be omitted from the blocks editor toolbox.
+* Fixes [Blocks Programs Stripped of Blocks (due to using TensorFlow Label block)](https://ftcforum.firstinspires.org/forum/ftc-technology/blocks-programming/87035-blocks-programs-stripped-of-blocks)
+
+## Version 7.1 (20211223-120805)
+
+* Fixes crash when calling `isPwmEnabled()` ([issue #223](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/233)).
+* Fixes lint error ([issue #4](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/4)).
+* Fixes Driver Station crash when attempting to use DualShock4 v1 gamepad with Advanced Gamepad Features enabled ([issue #173](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/173)).
+* Fixes possible (but unlikely) Driver Station crash when connecting gamepads of any type.
+* Fixes bug where Driver Station would use generic 20% deadzone for Xbox360 and Logitech F310 gamepads when Advanced Gamepad Features was disabled.
+* Added SimpleOmniDrive sample OpMode.
+* Adds UVC white balance control API.
+* Fixes [issue #259](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/259) Most blocks samples for TensorFlow can't be used for a different model.
+    * The blocks previously labeled TensorFlowObjectDetectionFreightFrenzy (from the subcategory named "Optimized for Freight Frenzy") and TensorFlowObjectDetectionCustomModel (from the subcategory named "Custom Model") have been replaced with blocks labeled TensorFlowObjectDetection. Blocks in existing opmodes will be automatically updated to the new blocks when opened in the blocks editor.
+* Fixes [issue #260](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/260) Blocks can't call java method that has a VuforiaLocalizer parameter.
+    * Blocks now has a block labeled VuforiaFreightFrenzy.getVuforiaLocalizer for this.
+* Added a page to manage the TensorFlow Lite models in /sdcard/FIRST/tflitemodels. To get to the TFLite Models page:
+    * You can click on the link at the bottom of the the Manage page.
+    * You can click on the link at the upper-right the Blocks project page.
+* Fixes logspam when `isBusy()` is called on a motor not in RTP mode.
+* Hides the "RC Password" item on the inspection screen for phone-based Robot Controllers. (It is only applicable for Control Hubs).
+* Adds channel 165 to Wi-Fi Direct channel selection menu in the settings screen. (165 was previously available through the web UI, but not locally in the app).
 
 ## Version 7.0 (20210915-141025)
 
@@ -81,50 +270,50 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
       * org.firstinspires.ftc.ftccommon.external.OnCreateMenu
       * org.firstinspires.ftc.ftccommon.external.OnDestroy
       * org.firstinspires.ftc.ftccommon.external.WebHandlerRegistrar
-* Adds support for REV Robotics Driver Hub
-* Adds fully custom userspace USB gamepad driver to Driver Station (see "Advanced Gamepad Features" menu in DS settings)
-    * Allows gamepads to work on devices without native Linux kernel support (e.g. some Romanian Motorola devices)
-    * Allows the DS to read the unique serial number of each gamepad, enabling auto-recovery of dropped gamepads even if two gamepads of the same model drop. *(NOTE: unfortunately this does not apply to Etpark gamepads, because they do not have a unique serial)*
-    * Reading the unique serial number also provides the ability to configure the DS to assign gamepads to a certain position by default (so no need to do start+a/b at all)
-    * The LED ring on the Xbox360 gamepad and the RGB LED bar on the PS4 gamepad is used to indicate the driver position the gamepad is bound to
-    * The rumble motors on the Xbox360, PS4, and Etpark gamepads can be controlled from OpModes
-    * The 2-point touchpad on the PS4 gamepad can be read from OpModes
-    * The "back" and "guide" buttons on the gamepad can now be safely bound to robot controls (Previously, on many devices, Android would intercept these buttons as home button presses and close the app)
-    * Advanced Gamepad features are enabled by default, but may be disabled through the settings menu in order to revert to gamepad support provided natively by Android
-* Improves accuracy of ping measurement
-    * Fixes issue where the ping time showed as being higher than reality when initially connecting to or restarting the robot
-    * To see the full improvement, you must update both the Robot Controller and Driver Station apps
-* Updates samples located at [/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples](FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
-    * Added ConceptGamepadRumble and ConceptGamepadTouchpad samples to illustrtate the use of these new gampad capabilities.
-    * Condensed existing Vuforia samples into just 2 samples (ConceptVuforiaFieldNavigation & ConceptVuforiaFieldNavigationWebcam) showing how to determine the robot's location on the field using Vuforia. These both use the current season's Target images.  
+* Adds support for REV Robotics Driver Hub.
+* Adds fully custom userspace USB gamepad driver to Driver Station (see "Advanced Gamepad Features" menu in DS settings).
+    * Allows gamepads to work on devices without native Linux kernel support (e.g. some Romanian Motorola devices).
+    * Allows the DS to read the unique serial number of each gamepad, enabling auto-recovery of dropped gamepads even if two gamepads of the same model drop. *(NOTE: unfortunately this does not apply to Etpark gamepads, because they do not have a unique serial)*.
+    * Reading the unique serial number also provides the ability to configure the DS to assign gamepads to a certain position by default (so no need to do start+a/b at all).
+    * The LED ring on the Xbox360 gamepad and the RGB LED bar on the PS4 gamepad is used to indicate the driver position the gamepad is bound to.
+    * The rumble motors on the Xbox360, PS4, and Etpark gamepads can be controlled from OpModes.
+    * The 2-point touchpad on the PS4 gamepad can be read from OpModes.
+    * The "back" and "guide" buttons on the gamepad can now be safely bound to robot controls (Previously, on many devices, Android would intercept these buttons as home button presses and close the app).
+    * Advanced Gamepad features are enabled by default, but may be disabled through the settings menu in order to revert to gamepad support provided natively by Android.
+* Improves accuracy of ping measurement.
+    * Fixes issue where the ping time showed as being higher than reality when initially connecting to or restarting the robot.
+    * To see the full improvement, you must update both the Robot Controller and Driver Station apps.
+* Updates samples located at [/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples](FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples).
+    * Added ConceptGamepadRumble and ConceptGamepadTouchpad samples to illustrate the use of these new gampad capabilities.
+    * Condensed existing Vuforia samples into just 2 samples (ConceptVuforiaFieldNavigation & ConceptVuforiaFieldNavigationWebcam) showing how to determine the robot's location on the field using Vuforia. These both use the current season's Target images.
     * Added ConceptVuforiaDriveToTargetWebcam to illustrate an easy way to drive directly to any visible Vuforia target.
-* Makes many improvements to the warning system and individual warnings
-    * Warnings are now much more spaced out, so that they are easier to read
-    * New warnings were added for conditions that should be resolved before competing
-    * The mismatched apps warning now uses the major and minor app versions, not the version code
-    * The warnings are automatically re-enabled when a Robot Controller app from a new FTC season is installed
-* Adds support for I2C transactions on the Expansion Hub / Control Hub without specifying a register address
-    * See section 3 of the [TI I2C spec](https://www.ti.com/lit/an/slva704/slva704.pdf)
-    * Calling these new methods when using Modern Robotics hardware will result in an UnsupportedOperationException
-* Changes VuforiaLocalizer `close()` method to be public
+* Makes many improvements to the warning system and individual warnings.
+    * Warnings are now much more spaced out, so that they are easier to read.
+    * New warnings were added for conditions that should be resolved before competing.
+    * The mismatched apps warning now uses the major and minor app versions, not the version code.
+    * The warnings are automatically re-enabled when a Robot Controller app from a new FTC season is installed.
+* Adds support for I2C transactions on the Expansion Hub / Control Hub without specifying a register address.
+    * See section 3 of the [TI I2C spec](https://www.ti.com/lit/an/slva704/slva704.pdf).
+    * Calling these new methods when using Modern Robotics hardware will result in an UnsupportedOperationException.
+* Changes VuforiaLocalizer `close()` method to be public.
 * Adds support for TensorFlow v2 object detection models.
 * Reduces ambiguity of the Self Inspect language and graphics.
-* OnBotJava now warns about potentially unintended file overwrites
+* OnBotJava now warns about potentially unintended file overwrites.
 * Improves behavior of the Wi-Fi band and channel selector on the Manage webpage.
 
 ### Bug fixes
- * Fixes Robot Controller app crash on Android 9+ when a Driver Station connects
+ * Fixes Robot Controller app crash on Android 9+ when a Driver Station connects.
  * Fixes issue where an Op Mode was responsible for calling shutdown on the
    TensorFlow TFObjectDetector. Now this is done automatically.
  * Fixes Vuforia initialization blocks to allow user to chose AxesOrder. Updated
    relevant blocks sample opmodes.
  * Fixes [FtcRobotController issue #114](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/114)
-   LED blocks and Java class do not work
- * Fixes match logging for Op Modes that contain special characters in their names
- * Fixes Driver Station OpMode controls becoming unresponsive if the Driver Station was set to the landscape layout and an OnBotJava build was triggered while an OpMode was running
- * Fixes the Driver Station app closing itself when it is switched away from, or the screen is turned off
- * Fixes "black swirl of doom" (Infinite "configuring Wi-Fi Direct" message) on older devices
- * Updates the wiki comment on the OnBotJava intro page
+   LED blocks and Java class do not work.
+ * Fixes match logging for Op Modes that contain special characters in their names.
+ * Fixes Driver Station OpMode controls becoming unresponsive if the Driver Station was set to the landscape layout and an OnBotJava build was triggered while an OpMode was running.
+ * Fixes the Driver Station app closing itself when it is switched away from, or the screen is turned off.
+ * Fixes "black swirl of doom" (Infinite "configuring Wi-Fi Direct" message) on older devices.
+ * Updates the wiki comment on the OnBotJava intro page.
 
 ## Version 6.2 (20210218-074821)
 
